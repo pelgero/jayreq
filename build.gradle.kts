@@ -1,9 +1,7 @@
-import com.vanniktech.maven.publish.SonatypeHost
-
 plugins {
     java
     signing
-    id("com.vanniktech.maven.publish") version "0.28.0"
+    id("com.vanniktech.maven.publish") version "0.36.0"
 }
 
 group = "io.badgod"
@@ -40,7 +38,7 @@ tasks.named<Test>("test") {
 }
 
 mavenPublishing {
-    publishToMavenCentral(SonatypeHost.CENTRAL_PORTAL)
+    publishToMavenCentral()
     signAllPublications()
 
 
