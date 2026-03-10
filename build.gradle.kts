@@ -11,8 +11,6 @@ repositories {
 }
 
 dependencies {
-    implementation("org.apache.httpcomponents.core5:httpcore5:5.4.1")
-
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
     testImplementation("org.junit.jupiter:junit-jupiter:5.12.2")
     testImplementation("org.hamcrest:hamcrest-library:3.0")
