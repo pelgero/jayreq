@@ -14,6 +14,8 @@ public interface JayReq {
 
     Response post(Request request);
 
+    Response put(Request request);
+
     /**
      * Implementation
      */
@@ -41,6 +43,12 @@ public interface JayReq {
             return this.execute(postRequest);
         }
 
+        @Override
+        public Response put(Request request) {
+            var putRequest = new Request(Method.PUT, request.uri(), request.body(), request.headers());
+            return this.execute(putRequest);
+        }
+
         private Response execute(Request request) {
             try {
                 var httpResp = httpClient.send(
@@ -61,9 +69,11 @@ public interface JayReq {
 
             builder = switch (request.method()) {
                 case Method.GET -> builder.GET();
-                case Method.POST -> builder.POST(request.body().value()
-                    .map(HttpRequest.BodyPublishers::ofString)
-                    .orElse(HttpRequest.BodyPublishers.noBody()));
+                case Method.POST, Method.PUT -> builder.method(
+                    request.method().name(),
+                    request.body().value()
+                        .map(HttpRequest.BodyPublishers::ofString)
+                        .orElse(HttpRequest.BodyPublishers.noBody()));
             };
 
             if (request.headers().isPresent()) {
