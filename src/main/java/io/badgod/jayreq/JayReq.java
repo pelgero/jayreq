@@ -16,6 +16,8 @@ public interface JayReq {
 
     Response put(Request request);
 
+    Response delete(Request request);
+
     /**
      * Implementation
      */
@@ -49,6 +51,12 @@ public interface JayReq {
             return this.execute(putRequest);
         }
 
+        @Override
+        public Response delete(Request request) {
+            var deleteRequest = new Request(Method.DELETE, request.uri(), null, request.headers());
+            return this.execute(deleteRequest);
+        }
+
         private Response execute(Request request) {
             try {
                 var httpResp = httpClient.send(
@@ -69,6 +77,7 @@ public interface JayReq {
 
             builder = switch (request.method()) {
                 case Method.GET -> builder.GET();
+                case Method.DELETE -> builder.DELETE();
                 case Method.POST, Method.PUT -> builder.method(
                     request.method().name(),
                     request.body().value()

@@ -1,5 +1,5 @@
 package io.badgod.jayreq;
 
 public enum Method {
-    POST, GET, PUT
+    POST, GET, PUT, DELETE
 }
