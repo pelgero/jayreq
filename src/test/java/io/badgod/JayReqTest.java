@@ -2,8 +2,7 @@ package io.badgod;
 
 import io.badgod.jayreq.*;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonSyntaxException;
+import com.google.gson.*;
 import org.junit.jupiter.api.Test;
 
 import java.util.*;
@@ -15,15 +14,13 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class JayReqTest extends TestContainerIntegrationTest {
 
-    private final static Gson gson = new Gson();
+    private static final Gson gson = new Gson();
     private final Body.Converter<HttpBinGetResponse> converter = (s, h, b) -> gson.fromJson(b, HttpBinGetResponse.class);
 
     @Test
     void should_do_get_request_via_shortcut() {
         var resp = get(testUrl("/anything"));
-
         var body = resp.body(converter);
-
         assertThat(body.isPresent(), is(true));
         assertThat(body.get().url(), is(testUrl("/anything")));
         assertThat(body.get().method(), is("GET"));
@@ -32,7 +29,6 @@ class JayReqTest extends TestContainerIntegrationTest {
     @Test
     void should_do_get_request_via_instance() {
         JayReq jr = new JayReq.Client();
-
         Optional<HttpBinGetResponse> body = jr.get(new Request(testUrl("/anything"))).body(converter);
         assertThat(body.isPresent(), is(true));
         assertThat(body.get().url(), is(testUrl("/anything")));
@@ -43,7 +39,6 @@ class JayReqTest extends TestContainerIntegrationTest {
     void should_contain_response_headers() {
         var resp = get(testUrl("/headers"));
         assertThat(resp.headers().isPresent(), is(true));
-
         // access to headers (i.e. the header keys) is case-insensitive!
         assertThat(resp.headers().get("Content-Type").isPresent(), is(true));
         assertThat(resp.headers().get("Content-Type").get(), is(List.of("application/json")));
@@ -54,7 +49,6 @@ class JayReqTest extends TestContainerIntegrationTest {
     @Test
     void should_contain_empty_body_when_there_is_no_body_in_http_response() {
         var resp = get(testUrl("/status/200"));
-
         assertThat(resp.body().isEmpty(), is(true));
         assertThat(resp.headers().isPresent(), is(true));
     }
@@ -67,9 +61,8 @@ class JayReqTest extends TestContainerIntegrationTest {
             Headers.of("X-Test", "Hello"),
             Headers.of("X-Test", "World!")
         );
-
-        //The request headers are returned in the body in field "headers"
-        //see: https://httpbin.org/#/Request_inspection/get_headers
+        // The request headers are returned in the body in field "headers"
+        // see: https://httpbin.org/#/Request_inspection/get_headers
         var body = resp.body((s, h, b) -> new Gson().fromJson(b, HttpBinHeadersResponse.class));
         assertThat(body.isPresent(), is(true));
         assertThat(body.get().headers().entrySet(), is(not(empty())));
@@ -113,9 +106,7 @@ class JayReqTest extends TestContainerIntegrationTest {
         }
     }
 
-    // @formatter:off
-    private record HttpBinGetResponse(String url, String method) {};
-    private record HttpBinGetResponseInvalid(int url, int method) {};
-    private record HttpBinHeadersResponse(Map<String, String> headers) {};
-    // @formatter:on
+    private record HttpBinGetResponse(String url, String method) {}
+    private record HttpBinGetResponseInvalid(int url, int method) {}
+    private record HttpBinHeadersResponse(Map<String, String> headers) {}
 }

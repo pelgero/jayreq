@@ -2,7 +2,6 @@ package io.badgod;
 
 import io.badgod.jayreq.Headers;
 
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.util.*;
@@ -10,7 +9,7 @@ import java.util.*;
 import static io.badgod.jayreq.Headers.of;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class HeadersTest {
 
@@ -22,9 +21,7 @@ class HeadersTest {
 
     @Test
     void should_throw_if_no_header_values() {
-        assertThrows(
-            IllegalArgumentException.class,
-            () -> of("x"));
+        assertThrows(IllegalArgumentException.class, () -> of("x"));
     }
 
     @Test
@@ -49,9 +46,7 @@ class HeadersTest {
 
     @Test
     void should_throw_when_request_headers_not_in_pairs() {
-        Assertions.assertThrows(
-            IllegalArgumentException.class,
-            () -> of("X-Test"));
+        assertThrows(IllegalArgumentException.class, () -> of("X-Test"));
     }
 
     @Test
@@ -59,9 +54,7 @@ class HeadersTest {
         var map = new TreeMap<String, List<String>>();
         map.put("x", List.of("a"));
         map.put("y", List.of("b", "c"));
-
         var headers = of(map);
-
         assertThat(headers.isPresent(), is(true));
         assertThat(headers.toStringArray(), is(new String[]{"x", "a", "y", "b,c"}));
     }
@@ -72,7 +65,6 @@ class HeadersTest {
             "x", List.of("a", "b"),
             "y", List.of("C")
         ));
-
         assertThat(headers.get("x").isPresent(), is(true));
         assertThat(headers.get("X").isPresent(), is(true));
         assertThat(headers.get("y").isPresent(), is(true));
@@ -90,7 +82,6 @@ class HeadersTest {
     @Test
     void should_set_valid_auth_basic_header() {
         assertThat(Headers.authBasic("Guy", "Test").toStringArray()[0], is("Authorization"));
-
         assertThat(Headers.authBasic("Guy", "Test").toStringArray()[1], is("Basic R3V5OlRlc3Q="));
         assertThat(Headers.authBasic(null, "Test").toStringArray()[1], is("Basic OlRlc3Q="));
         assertThat(Headers.authBasic("Guy", null).toStringArray()[1], is("Basic R3V5Og=="));

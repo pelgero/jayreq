@@ -133,7 +133,6 @@ public class Headers implements Serializable {
     @Override
     public String toString() {
         return headersMap.toString();
-
     }
 
     public Optional<List<String>> get(String key) {

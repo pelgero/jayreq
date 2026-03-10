@@ -56,7 +56,6 @@ public interface JayReq {
             }
         }
 
-
         private static HttpRequest createRequest(Request request) {
             var builder = HttpRequest.newBuilder().uri(request.uri());
 

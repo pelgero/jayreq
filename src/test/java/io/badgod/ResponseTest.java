@@ -1,4 +1,6 @@
-package io.badgod.jayreq;
+package io.badgod;
+
+import io.badgod.jayreq.*;
 
 import org.junit.jupiter.api.Test;
 
@@ -13,8 +15,6 @@ class ResponseTest {
     void should_contain_request() {
         var request = new Request("http://example.com", Headers.of("X", "123"));
         var response = new Response(request, "{}", 200, Map.of());
-
         assertThat(response.request(), is(request));
     }
-
 }

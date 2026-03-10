@@ -1,17 +1,17 @@
 package io.badgod;
 
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.*;
 import org.testcontainers.containers.GenericContainer;
 
 import java.net.URI;
 
 public abstract class TestContainerIntegrationTest {
+
     protected static GenericContainer<?> container;
 
     @BeforeAll
     public static void startTestContainer() {
-        try(var c = new GenericContainer<>("kennethreitz/httpbin:latest")) {
+        try (var c = new GenericContainer<>("kennethreitz/httpbin:latest")) {
             container = c.withExposedPorts(80);
         }
         container.start();

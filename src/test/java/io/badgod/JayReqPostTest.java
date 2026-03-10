@@ -16,9 +16,7 @@ class JayReqPostTest extends TestContainerIntegrationTest {
     @Test
     void should_do_post() {
         Request req = new Request(testUrl("/anything"));
-
         var body = new JayReq.Client().post(req).body(converter);
-
         assertThat(body.isPresent(), is(true));
         assertThat(body.get().url(), is(testUrl("/anything")));
         assertThat(body.get().method(), is("POST"));
@@ -33,14 +31,11 @@ class JayReqPostTest extends TestContainerIntegrationTest {
             Headers.of("X-Header1", "header-1-value")
         );
         var body = new JayReq.Client().post(req).body(converter);
-
         assertThat(body.isPresent(), is(true));
         assertThat(body.get().url(), is(testUrl("/anything")));
         assertThat(body.get().method(), is("POST"));
         assertThat(body.get().data(), is("some-body"));
     }
 
-    // @formatter:off
-    private record HttpBinPostResponse(String url, String method, String data, String json) {};
-    // @formatter:on
+    private record HttpBinPostResponse(String url, String method, String data, String json) {}
 }
