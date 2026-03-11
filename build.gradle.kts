@@ -1,5 +1,6 @@
 plugins {
     `java-library`
+    jacoco
     id("com.vanniktech.maven.publish") version "0.36.0"
 }
 
@@ -30,6 +31,14 @@ tasks.test {
     useJUnitPlatform()
     testLogging.events("failed")
     testLogging.showExceptions = true
+    finalizedBy(tasks.jacocoTestReport)
+}
+
+tasks.jacocoTestReport {
+    dependsOn(tasks.test)
+    reports {
+        csv.required = true
+    }
 }
 
 mavenPublishing {
