@@ -21,5 +21,4 @@ class JayReqDeleteTest extends HttpBinIntegrationTest {
         assertThat(body.get().url(), is(testUrl("/anything")));
         assertThat(body.get().method(), is("DELETE"));
     }
-
 }

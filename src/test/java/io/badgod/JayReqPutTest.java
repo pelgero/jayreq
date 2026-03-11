@@ -36,5 +36,4 @@ class JayReqPutTest extends HttpBinIntegrationTest {
         assertThat(body.get().method(), is("PUT"));
         assertThat(body.get().data(), is("some-body"));
     }
-
 }

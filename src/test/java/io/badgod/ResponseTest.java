@@ -4,8 +4,7 @@ import io.badgod.jayreq.*;
 
 import org.junit.jupiter.api.Test;
 
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
@@ -28,7 +27,7 @@ class ResponseTest {
     @Test
     void should_expose_headers() {
         var response = new Response(
-            new Request("http://x"), "",  200,
+            new Request("http://x"), "", 200,
             Map.of("Content-Type", List.of("application/json"))
         );
         assertThat(response.headers().isPresent(), is(true));

@@ -63,7 +63,7 @@ class JayReqGetTest extends HttpBinIntegrationTest {
         );
         // The request headers are returned in the body in field "headers"
         // see: https://httpbin.org/#/Request_inspection/get_headers
-        var body = resp.body((s, h, b) -> new Gson().fromJson(b, HttpBinHeadersResponse.class));
+        var body = resp.body((s, h, b) -> gson.fromJson(b, HttpBinResponse.class));
         assertThat(body.isPresent(), is(true));
         assertThat(body.get().headers().entrySet(), is(not(empty())));
         assertThat(body.get().headers().get("Authorization"), is("Bearer xyz"));
@@ -85,6 +85,4 @@ class JayReqGetTest extends HttpBinIntegrationTest {
             JsonSyntaxException.class,
             () -> get(url).body((s, h, b) -> gson.fromJson(b, InvalidHttpBinResponse.class)));
     }
-
-    private record HttpBinHeadersResponse(Map<String, String> headers) {}
 }

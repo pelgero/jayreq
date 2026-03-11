@@ -36,5 +36,4 @@ class JayReqPatchTest extends HttpBinIntegrationTest {
         assertThat(body.get().method(), is("PATCH"));
         assertThat(body.get().data(), is("some-body"));
     }
-
 }

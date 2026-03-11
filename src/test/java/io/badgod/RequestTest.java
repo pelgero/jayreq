@@ -6,7 +6,6 @@ import org.junit.jupiter.api.Test;
 
 import java.net.URI;
 
-import static io.badgod.jayreq.Headers.of;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 
@@ -17,8 +16,8 @@ class RequestTest {
         assertThat(new Request("http://x", (Headers[]) null).headers(), is(Headers.empty()));
         assertThat(new Request("http://x", (Headers) null).headers(), is(Headers.empty()));
         assertThat(new Request("http://x").headers(), is(Headers.empty()));
-        assertThat(new Request("http://x", of((String) null)).headers(), is(Headers.empty()));
-        assertThat(new Request("http://x", of(null)).headers(), is(Headers.empty()));
+        assertThat(new Request("http://x", Headers.of((String) null)).headers(), is(Headers.empty()));
+        assertThat(new Request("http://x", Headers.of(null)).headers(), is(Headers.empty()));
     }
 
     @Test

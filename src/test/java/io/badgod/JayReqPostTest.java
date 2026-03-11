@@ -36,5 +36,4 @@ class JayReqPostTest extends HttpBinIntegrationTest {
         assertThat(body.get().method(), is("POST"));
         assertThat(body.get().data(), is("some-body"));
     }
-
 }
