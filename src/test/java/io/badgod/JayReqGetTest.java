@@ -12,10 +12,10 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-class JayReqTest extends TestContainerIntegrationTest {
+class JayReqGetTest extends HttpBinIntegrationTest {
 
     private static final Gson gson = new Gson();
-    private final Body.Converter<HttpBinGetResponse> converter = (s, h, b) -> gson.fromJson(b, HttpBinGetResponse.class);
+    private final Body.Converter<HttpBinResponse> converter = (s, h, b) -> gson.fromJson(b, HttpBinResponse.class);
 
     @Test
     void should_do_get_request_via_shortcut() {
@@ -29,7 +29,7 @@ class JayReqTest extends TestContainerIntegrationTest {
     @Test
     void should_do_get_request_via_instance() {
         JayReq jr = new JayReq.Client();
-        Optional<HttpBinGetResponse> body = jr.get(new Request(testUrl("/anything"))).body(converter);
+        Optional<HttpBinResponse> body = jr.get(new Request(testUrl("/anything"))).body(converter);
         assertThat(body.isPresent(), is(true));
         assertThat(body.get().url(), is(testUrl("/anything")));
         assertThat(body.get().method(), is("GET"));
@@ -88,7 +88,7 @@ class JayReqTest extends TestContainerIntegrationTest {
         String url = testUrl("/anything");
         assertThrows(
             JsonSyntaxException.class,
-            () -> get(url).body((s, h, b) -> gson.fromJson(b, HttpBinGetResponseInvalid.class)));
+            () -> get(url).body((s, h, b) -> gson.fromJson(b, InvalidHttpBinResponse.class)));
     }
 
     @Test
@@ -106,7 +106,5 @@ class JayReqTest extends TestContainerIntegrationTest {
         }
     }
 
-    private record HttpBinGetResponse(String url, String method) {}
-    private record HttpBinGetResponseInvalid(int url, int method) {}
     private record HttpBinHeadersResponse(Map<String, String> headers) {}
 }

@@ -8,10 +8,10 @@ import org.junit.jupiter.api.Test;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 
-class JayReqPostTest extends TestContainerIntegrationTest {
+class JayReqPostTest extends HttpBinIntegrationTest {
 
     private final Gson gson = new Gson();
-    private final Body.Converter<HttpBinPostResponse> converter = (s, h, b) -> gson.fromJson(b, HttpBinPostResponse.class);
+    private final Body.Converter<HttpBinResponse> converter = (s, h, b) -> gson.fromJson(b, HttpBinResponse.class);
 
     @Test
     void should_do_post() {
@@ -37,5 +37,4 @@ class JayReqPostTest extends TestContainerIntegrationTest {
         assertThat(body.get().data(), is("some-body"));
     }
 
-    private record HttpBinPostResponse(String url, String method, String data, String json) {}
 }

@@ -4,10 +4,14 @@ import org.junit.jupiter.api.*;
 import org.testcontainers.containers.GenericContainer;
 
 import java.net.URI;
+import java.util.Map;
 
-public abstract class TestContainerIntegrationTest {
+public abstract class HttpBinIntegrationTest {
 
     protected static GenericContainer<?> container;
+
+    protected record HttpBinResponse(String url, String method, String data, String json, Map<String, String> headers) {}
+    protected record InvalidHttpBinResponse(int url, int method) {}
 
     @BeforeAll
     public static void startTestContainer() {

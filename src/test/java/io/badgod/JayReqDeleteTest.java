@@ -8,10 +8,10 @@ import org.junit.jupiter.api.Test;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 
-class JayReqDeleteTest extends TestContainerIntegrationTest {
+class JayReqDeleteTest extends HttpBinIntegrationTest {
 
     private final Gson gson = new Gson();
-    private final Body.Converter<HttpBinDeleteResponse> converter = (s, h, b) -> gson.fromJson(b, HttpBinDeleteResponse.class);
+    private final Body.Converter<HttpBinResponse> converter = (s, h, b) -> gson.fromJson(b, HttpBinResponse.class);
 
     @Test
     void should_do_delete() {
@@ -22,5 +22,4 @@ class JayReqDeleteTest extends TestContainerIntegrationTest {
         assertThat(body.get().method(), is("DELETE"));
     }
 
-    private record HttpBinDeleteResponse(String url, String method, String data, String json) {}
 }
