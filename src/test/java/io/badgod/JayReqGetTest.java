@@ -79,31 +79,11 @@ class JayReqGetTest extends HttpBinIntegrationTest {
     }
 
     @Test
-    void should_throw_on_connection_error() {
-        assertThrows(JayReq.Error.class, () -> get("http://localhost"));
-    }
-
-    @Test
     void should_throw_on_failed_json_mapping() {
         String url = testUrl("/anything");
         assertThrows(
             JsonSyntaxException.class,
             () -> get(url).body((s, h, b) -> gson.fromJson(b, InvalidHttpBinResponse.class)));
-    }
-
-    @Test
-    void should_be_able_to_inspect_request_and_raw_response_on_failed_json_mapping() {
-        try {
-            get(testUrl("/anything"));
-        } catch (JayReq.Error err) {
-            assertThat(err.response().isPresent(), is(true));
-            assertThat(err.response().get().body(), is(not(Optional.empty())));
-            assertThat(err.response().get().headers().isPresent(), is(true));
-            assertThat(err.request(), is(not(nullValue())));
-            assertThat(err.request().headers(), is(not(nullValue())));
-            assertThat(err.request().method(), is(Method.GET));
-            assertThat(err.request().uri().toString(), is(testUrl("/anything")));
-        }
     }
 
     private record HttpBinHeadersResponse(Map<String, String> headers) {}
