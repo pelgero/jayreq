@@ -24,12 +24,12 @@ All production code lives in the `io.badgod.jayreq` package under `src/main/java
 
 | Class | Role |
 |-------|------|
-| `JayReq` | Main API interface. Contains static `get()` shortcut, interface methods for all HTTP verbs, inner `Client` implementation class, and inner `Error` exception class. |
+| `JayReq` | Main API interface. Contains static `get()` shortcut, interface methods for all HTTP verbs (`get`, `post`, `put`, `delete`, `patch`, `head`, `options`, `trace`), inner `Client` implementation class, and inner `Error` exception class. |
 | `Request` | Immutable request model (`URI`, `Method`, `Body`, `Headers`). Implements `Serializable`. |
 | `Response` | Immutable response model (`Request`, `Body`, `int status`, `Headers`). Supports body conversion via `Body.Converter<T>`. Implements `Serializable`. |
 | `Headers` | Case-insensitive header container backed by `TreeMap(String.CASE_INSENSITIVE_ORDER)`. Factory methods: `of()`, `authBearer()`, `authBasic()`, `accept()`, `mergeAll()`. |
 | `Body` | Simple string wrapper with `Optional<String> value()`. Contains `Converter<T>` functional interface for response body transformation. |
-| `Method` | Enum: `GET`, `POST`, `PUT`, `DELETE`, `PATCH`. |
+| `Method` | Enum: `GET`, `POST`, `PUT`, `DELETE`, `PATCH`, `HEAD`, `OPTIONS`, `TRACE`. |
 
 ### Key Implementation Details
 
@@ -93,7 +93,7 @@ Tests live in `src/test/java/io/badgod/` (note: `io.badgod` package, not `io.bad
 ### Integration Tests
 
 - `HttpBinIntegrationTest` is the abstract base class that spins up an **httpbin** Docker container via Testcontainers.
-- All HTTP method test classes extend this base: `JayReqGetTest`, `JayReqPostTest`, `JayReqPutTest`, `JayReqDeleteTest`, `JayReqPatchTest`.
+- All HTTP method test classes extend this base: `JayReqGetTest`, `JayReqPostTest`, `JayReqPutTest`, `JayReqDeleteTest`, `JayReqPatchTest`, `JayReqHeadTest`, `JayReqOptionsTest`, `JayReqTraceTest`.
 - Tests use real HTTP interactions, not mocks, providing high confidence in correctness.
 - `JayReqErrorTest` tests error handling (connection failures, error wrapping).
 
