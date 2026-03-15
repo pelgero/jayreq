@@ -24,6 +24,8 @@ public interface JayReq {
 
     Response options(Request request);
 
+    Response trace(Request request);
+
     /**
      * Implementation
      */
@@ -81,6 +83,12 @@ public interface JayReq {
             return this.execute(optionsRequest);
         }
 
+        @Override
+        public Response trace(Request request) {
+            var traceRequest = new Request(Method.TRACE, request.uri(), null, request.headers());
+            return this.execute(traceRequest);
+        }
+
         private Response execute(Request request) {
             try {
                 var httpResp = httpClient.send(
@@ -104,6 +112,7 @@ public interface JayReq {
                 case Method.DELETE -> builder.DELETE();
                 case Method.HEAD -> builder.method("HEAD", HttpRequest.BodyPublishers.noBody());
                 case Method.OPTIONS -> builder.method("OPTIONS", HttpRequest.BodyPublishers.noBody());
+                case Method.TRACE -> builder.method("TRACE", HttpRequest.BodyPublishers.noBody());
                 case Method.POST, Method.PUT, Method.PATCH -> builder.method(
                     request.method().name(),
                     request.body().value()
