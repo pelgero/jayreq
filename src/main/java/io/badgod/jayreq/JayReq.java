@@ -20,6 +20,8 @@ public interface JayReq {
 
     Response patch(Request request);
 
+    Response head(Request request);
+
     /**
      * Implementation
      */
@@ -65,6 +67,12 @@ public interface JayReq {
             return this.execute(patchRequest);
         }
 
+        @Override
+        public Response head(Request request) {
+            var headRequest = new Request(Method.HEAD, request.uri(), null, request.headers());
+            return this.execute(headRequest);
+        }
+
         private Response execute(Request request) {
             try {
                 var httpResp = httpClient.send(
@@ -86,6 +94,7 @@ public interface JayReq {
             builder = switch (request.method()) {
                 case Method.GET -> builder.GET();
                 case Method.DELETE -> builder.DELETE();
+                case Method.HEAD -> builder.method("HEAD", HttpRequest.BodyPublishers.noBody());
                 case Method.POST, Method.PUT, Method.PATCH -> builder.method(
                     request.method().name(),
                     request.body().value()
