@@ -7,3 +7,4 @@ bin
 # Eclipse IDE files
 .classpath
 .settings/
+.project
